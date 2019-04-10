@@ -21,9 +21,9 @@ interface CounterfactualApp {
     pure
     returns (bytes memory);
 
-  function resolve(bytes calldata, Transfer.Terms calldata)
+  function resolveSelector()
     external
     pure
-    returns (Transfer.Transaction memory);
+    returns (bytes4);
 
 }
