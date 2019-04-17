@@ -120,7 +120,7 @@ contract HighRollerApp is CounterfactualApp {
   }
 
   function resolve(bytes memory encodedState)
-    public
+    external
     pure
     returns (bytes memory)
   {
