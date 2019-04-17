@@ -64,7 +64,7 @@ contract NimApp is CounterfactualApp {
   }
 
   function resolve(bytes calldata encodedState)
-    public
+    external
     pure
     returns (bytes memory)
   {

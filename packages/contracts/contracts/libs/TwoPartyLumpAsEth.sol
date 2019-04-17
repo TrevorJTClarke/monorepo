@@ -5,7 +5,7 @@ import "../Interpreter.sol";
 
 contract TwoPartyLumpAsEth is Interpreter {
 
-  enum TwoPartyLumpResolution {
+  enum Resolution {
     SEND_TO_ADDR_ONE,
     SEND_TO_ADDR_TWO,
     SPLIT_AND_SEND_TO_BOTH_ADDRS
@@ -21,12 +21,12 @@ contract TwoPartyLumpAsEth is Interpreter {
   ) public {
 
     Params memory params = abi.decode(encodedParams, (Params));
-    TwoPartyLumpResolution resolution = abi.decode(encodedResolution, (TwoPartyLumpResolution));
+    Resolution resolution = abi.decode(encodedResolution, (Resolution));
 
-    if (resolution == TwoPartyLumpResolution.SEND_TO_ADDR_ONE) {
+    if (resolution == Resolution.SEND_TO_ADDR_ONE) {
         params.playerAddrs[0].transfer(params.amount);
         return;
-    } else if (resolution == TwoPartyLumpResolution.SEND_TO_ADDR_TWO) {
+    } else if (resolution == Resolution.SEND_TO_ADDR_TWO) {
         params.playerAddrs[1].transfer(params.amount);
         return;
     }

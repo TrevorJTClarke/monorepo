@@ -2,7 +2,7 @@ pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
 import "@counterfactual/contracts/contracts/CounterfactualApp.sol";
-
+import "@counterfactual/contracts/contracts/libs/TwoPartyLumpAsEth.sol";
 
 /// @title High Roller App
 /// @notice This contract allows the playing of a dice rolling game.
@@ -122,7 +122,7 @@ contract HighRollerApp is CounterfactualApp {
   function resolve(bytes calldata encodedState)
     external
     pure
-    returns (bytes memory)
+    returns (TwoPartyLumpAsEth.Resolution)
   {
     AppState memory appState = abi.decode(encodedState, (AppState));
 
@@ -133,24 +133,25 @@ contract HighRollerApp is CounterfactualApp {
       return getWinningAmounts(
         appState.playerFirstNumber, appState.playerSecondNumber
       );
+    } else {
+      return TwoPartyLumpAsEth.Resolution.SEND_TO_ADDR_TWO;
     }
-
-    return abi.encodePacked(uint256(1));
   }
 
   function getWinningAmounts(uint256 num1, uint256 num2)
     public
     pure
-    returns (bytes memory)
+    returns (TwoPartyLumpAsEth.Resolution)
   {
     bytes32 randomSalt = calculateRandomSalt(num1, num2);
     (uint8 playerFirstTotal, uint8 playerSecondTotal) = highRoller(randomSalt);
     if (playerFirstTotal > playerSecondTotal) {
-    return abi.encodePacked(uint256(0));
+      return TwoPartyLumpAsEth.Resolution.SEND_TO_ADDR_ONE;
     } else if (playerFirstTotal < playerSecondTotal) {
-      return abi.encodePacked(uint256(1));
+      return TwoPartyLumpAsEth.Resolution.SEND_TO_ADDR_TWO;
+    } else {
+      return TwoPartyLumpAsEth.Resolution.SPLIT_AND_SEND_TO_BOTH_ADDRS;
     }
-    return abi.encodePacked(uint256(2));
   }
 
   function highRoller(bytes32 randomness)

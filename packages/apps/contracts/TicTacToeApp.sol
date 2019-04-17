@@ -102,7 +102,7 @@ contract TicTacToeApp is CounterfactualApp {
     return abi.encode(postState);
   }
 
-  function resolve(bytes memory encodedState)
+  function resolve(bytes calldata encodedState)
     external
     pure
     returns (bytes memory)
