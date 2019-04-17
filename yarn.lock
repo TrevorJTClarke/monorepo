@@ -17422,13 +17422,14 @@ truffle-flattener@^1.3.0:
     solidity-parser-antlr "^0.4.0"
     tsort "0.0.1"
 
-truffle-hdwallet-provider@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/truffle-hdwallet-provider/-/truffle-hdwallet-provider-1.0.6.tgz#7cda437c9a25bda6bbc5f4ed018e932254ecc867"
-  integrity sha512-cYTG0t9XouLLEBLMjkfHe3s2JO9wrFFVeXEgpW5Ay+8S56isf3LkrAUh0ws9bcYCJ0l7jho9xkaNnakeDqq//Q==
+truffle-hdwallet-provider@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/truffle-hdwallet-provider/-/truffle-hdwallet-provider-1.0.7.tgz#e3368dc4141692e402ff1bb1e99790dcb1ad5bca"
+  integrity sha512-+UK4FEU38b3/vKdno8ieV9Lj+2e4hOXM7sjgiJrsqeAFp2VUhlA3Ypp8MIlKHM2Wbs2Vo8YFi0WhUtq1BhVilg==
   dependencies:
     any-promise "^1.3.0"
     bindings "^1.3.1"
+    web3 "1.0.0-beta.37"
     websocket "^1.0.28"
 
 truffle-interface-adapter@^0.1.2:
