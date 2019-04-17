@@ -5,7 +5,7 @@ import "../Interpreter.sol";
 
 contract TwoPartyLumpAsEth is Interpreter {
 
-  enum Resolution {
+  enum TwoPartyLumpResolution {
     SEND_TO_ADDR_ONE,
     SEND_TO_ADDR_TWO,
     SPLIT_AND_SEND_TO_BOTH_ADDRS
@@ -13,32 +13,28 @@ contract TwoPartyLumpAsEth is Interpreter {
 
   struct Params {
     address payable[2] playerAddrs;
-    uint256 limit;
+    uint256 amount;
   }
 
   function interpret(
-    bytes memory resolution, bytes memory params
+    bytes memory encodedResolution, bytes memory encodedParams
   ) public {
 
-    Params memory params2 = abi.decode(params, (Params));
-    Resolution resolution2 = abi.decode(resolution, (Resolution));
+    Params memory params = abi.decode(encodedParams, (Params));
+    TwoPartyLumpResolution resolution = abi.decode(encodedResolution, (TwoPartyLumpResolution));
 
-    if (resolution2 == Resolution.SEND_TO_ADDR_ONE) {
-        address payable to = params2.playerAddrs[0];
-        to.transfer(params2.limit);
+    if (resolution == TwoPartyLumpResolution.SEND_TO_ADDR_ONE) {
+        params.playerAddrs[0].transfer(params.amount);
         return;
-    } else if (resolution2 == Resolution.SEND_TO_ADDR_TWO) {
-        address payable to = params2.playerAddrs[1];
-        to.transfer(params2.limit);
+    } else if (resolution == TwoPartyLumpResolution.SEND_TO_ADDR_TWO) {
+        params.playerAddrs[1].transfer(params.amount);
         return;
     }
 
-    /* SPLIT_AND_SEND_TO_BOTH_ADDRS or default cases */
+    /* SPLIT_AND_SEND_TO_BOTH_ADDRS or fallback case */
 
-    address payable to = params2.playerAddrs[0];
-    to.transfer(params2.limit / 2);
-    to = params2.playerAddrs[1];
-    to.transfer(params2.limit - params2.limit / 2);
+    params.playerAddrs[0].transfer(params.amount / 2);
+    params.playerAddrs[1].transfer(params.amount - params.amount / 2);
 
     return;
   }
