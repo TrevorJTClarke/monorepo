@@ -136,7 +136,7 @@ describe("Uninstall Commitment", () => {
               owner,
               signingKeys,
               appDefinitionAddress,
-              termsHash,
+              {},
               defaultTimeout
             ]
           ] = calldata.args;
@@ -146,7 +146,6 @@ describe("Uninstall Commitment", () => {
           expect(owner).toBe(expected.owner);
           expect(signingKeys).toEqual(expected.signingKeys);
           expect(appDefinitionAddress).toBe(expected.appDefinitionAddress);
-          expect(termsHash).toBe(expected.termsHash);
           expect(defaultTimeout).toEqual(bigNumberify(expected.defaultTimeout));
         });
 

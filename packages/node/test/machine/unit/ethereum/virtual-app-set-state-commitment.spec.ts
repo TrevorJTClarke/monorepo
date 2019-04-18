@@ -95,7 +95,7 @@ describe("Virtual App Set State Commitment", () => {
         owner,
         signingKeys,
         appDefinitionAddress,
-        termsHash,
+        {},
         defaultTimeout
       ] = desc.args[0];
       expect(owner).toBe(appInstance.identity.owner);
@@ -103,7 +103,6 @@ describe("Virtual App Set State Commitment", () => {
       expect(appDefinitionAddress).toBe(
         appInstance.identity.appDefinitionAddress
       );
-      expect(termsHash).toBe(appInstance.identity.termsHash);
       expect(defaultTimeout).toEqual(
         bigNumberify(appInstance.identity.defaultTimeout)
       );

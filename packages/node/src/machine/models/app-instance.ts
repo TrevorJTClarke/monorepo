@@ -18,6 +18,7 @@ import { Memoize } from "typescript-memoize";
 
 import { appIdentityToHash } from "../ethereum/utils/app-identity";
 import { TERMS } from "../ethereum/utils/encodings";
+import { AddressZero, HashZero } from "ethers/constants";
 
 /**
  * Representation of the values a dependency nonce can take on.
@@ -142,12 +143,12 @@ export class AppInstance {
 
   @Memoize()
   public get identity(): AppIdentity {
-    const encodedTerms = defaultAbiCoder.encode([TERMS], [this.json.terms]);
     return {
       owner: this.json.multisigAddress,
       signingKeys: this.json.signingKeys,
       appDefinitionAddress: this.json.appInterface.addr,
-      termsHash: keccak256(encodedTerms),
+      interpreterAddress: AddressZero,
+      interpreterParamsHash: HashZero,
       defaultTimeout: this.json.defaultTimeout
     };
   }
