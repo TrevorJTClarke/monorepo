@@ -61,11 +61,6 @@ describe("ETHVirtualAppAgreement", () => {
         capitalProvided,
         registry: appRegistry.address,
         nonceRegistry: nonceRegistry.address,
-        terms: {
-          assetType,
-          limit: 0,
-          token: AddressZero
-        },
         appIdentityHash: resolutionAddr
       }
     ]);
@@ -84,14 +79,6 @@ describe("ETHVirtualAppAgreement", () => {
     provider = waffle.createMockProvider();
     wallet = (await waffle.getWallets(provider))[0];
 
-    const transfer = await waffle.deployContract(wallet, Transfer);
-
-    waffle.link(
-      ETHVirtualAppAgreement,
-      "contracts/libs/Transfer.sol:Transfer",
-      transfer.address
-    );
-
     virtualAppAgreement = await waffle.deployContract(
       wallet,
       ETHVirtualAppAgreement
@@ -108,28 +95,12 @@ describe("ETHVirtualAppAgreement", () => {
       ResolveToPay5WeiApp
     );
 
-    const terms = {
-      assetType: 0,
-      limit: 0,
-      token: AddressZero
-    };
-
-    const encodedTerms = defaultAbiCoder.encode(
-      [
-        `tuple(
-          uint8 assetType,
-          uint256 limit,
-          address token
-        )`
-      ],
-      [terms]
-    );
-
     const appIdentity = {
       owner: await wallet.getAddress(),
       signingKeys: [],
       appDefinitionAddress: fixedResolutionApp.address,
-      termsHash: keccak256(encodedTerms),
+      interpreterAddress: AddressZero,
+      interpreterParamsHash: HashZero,
       defaultTimeout: 10
     };
 
@@ -140,7 +111,8 @@ describe("ETHVirtualAppAgreement", () => {
             address owner,
             address[] signingKeys,
             address appDefinitionAddress,
-            bytes32 termsHash,
+            address interpreterAddress,
+            bytes32 interpreterParamsHash,
             uint256 defaultTimeout
           )`
         ],
@@ -159,8 +131,7 @@ describe("ETHVirtualAppAgreement", () => {
     // because the timeout was set to 0 in the previous call to setState
     await appRegistry.functions.setResolution(
       appIdentity,
-      HashZero,
-      encodedTerms
+      HashZero
     );
   });
 
