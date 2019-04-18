@@ -1,6 +1,6 @@
 pragma experimental "ABIEncoderV2";
 
-import "../Interpreter.sol";
+import "../interfaces/Interpreter.sol";
 
 contract TwoPartyLumpAsEth is Interpreter {
 

@@ -3,7 +3,7 @@ pragma experimental "ABIEncoderV2";
 
 import "./NonceRegistry.sol";
 import "./AppRegistry.sol";
-import "./Interpreter.sol";
+import "./interfaces/Interpreter.sol";
 
 
 /// @title StateChannelTransaction

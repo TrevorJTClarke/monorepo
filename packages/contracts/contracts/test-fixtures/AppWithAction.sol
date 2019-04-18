@@ -1,7 +1,7 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "../CounterfactualApp.sol";
+import "../interfaces/CounterfactualApp.sol";
 
 // there is a counter; player2 can unanimously increment it
 
