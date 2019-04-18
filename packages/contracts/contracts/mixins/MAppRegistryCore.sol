@@ -2,12 +2,8 @@ pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
 import "../libs/LibStateChannelApp.sol";
-import "../libs/Transfer.sol";
-
 
 contract MAppRegistryCore {
-
-  using Transfer for Transfer.Transaction;
 
   // A mapping of appIdentityHash to AppChallenge structs which represents
   // the current on-chain status of some particular application's state.

@@ -1,8 +1,6 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "../libs/Transfer.sol";
-
 import "../CounterfactualApp.sol";
 
 
@@ -64,7 +62,6 @@ contract MAppCaller {
   /// @notice Execute the application's resolve function to compute a resolution
   /// @param appDefinitionAddress An address of an app definition to call
   /// @param appState The ABI encoded version of some application state
-  /// @return A `Transfer.Transaction` struct with all encoded information of the resolution
   function resolve(
     address appDefinitionAddress,
     bytes memory appState

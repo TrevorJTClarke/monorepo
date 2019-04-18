@@ -1,9 +1,6 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "./libs/Transfer.sol";
-
-
 interface CounterfactualApp {
 
   function isStateTerminal(bytes calldata)

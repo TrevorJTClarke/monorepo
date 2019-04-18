@@ -1,4 +1,3 @@
-import "./Transfer.sol";
 pragma experimental "ABIEncoderV2";
 
 import "../Interpreter.sol";
