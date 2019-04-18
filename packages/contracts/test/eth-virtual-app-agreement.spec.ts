@@ -15,7 +15,6 @@ import NonceRegistry from "../build/NonceRegistry.json";
 import DelegateProxy from "../build/DelegateProxy.json";
 import ETHVirtualAppAgreement from "../build/ETHVirtualAppAgreement.json";
 import ResolveToPay5WeiApp from "../build/ResolveToPay5WeiApp.json";
-import Transfer from "../build/Transfer.json";
 
 import { expect } from "./utils/index";
 
@@ -38,7 +37,6 @@ describe("ETHVirtualAppAgreement", () => {
     resolutionAddr: string,
     expiry: number,
     capitalProvided: BigNumber,
-    assetType: number,
     uninstallKey: string
   ): Promise<string[]> => {
     const delegateProxy = await waffle.deployContract(wallet, DelegateProxy);
@@ -143,9 +141,11 @@ describe("ETHVirtualAppAgreement", () => {
       appIdentityHash,
       0,
       bigNumberify(10),
-      0,
       HashZero
     );
+
+    // actually, 500 is treated as "split"
+
     expect(await provider.getBalance(beneficiaries[0])).to.eq(
       bigNumberify(5)
     );
@@ -163,7 +163,6 @@ describe("ETHVirtualAppAgreement", () => {
         HashZero,
         0,
         bigNumberify(10),
-        0,
         HashZero
       )
     ).to.be.reverted;
@@ -178,37 +177,6 @@ describe("ETHVirtualAppAgreement", () => {
         appIdentityHash,
         (await provider.getBlockNumber()) + 10,
         bigNumberify(10),
-        0,
-        HashZero
-      )
-    ).to.be.revertedWith("Delegate call failed.");
-  });
-
-  it("fails if resolution value is larger than capital provided", async () => {
-    await expect(
-      delegatecallVirtualAppAgreement(
-        virtualAppAgreement,
-        appRegistry,
-        nonceRegistry,
-        appIdentityHash,
-        0,
-        bigNumberify(2),
-        0,
-        HashZero
-      )
-    ).to.be.revertedWith("Delegate call failed.");
-  });
-
-  it("fails if resolution returns different token type", async () => {
-    await expect(
-      delegatecallVirtualAppAgreement(
-        virtualAppAgreement,
-        appRegistry,
-        nonceRegistry,
-        appIdentityHash,
-        0,
-        bigNumberify(10),
-        1,
         HashZero
       )
     ).to.be.revertedWith("Delegate call failed.");
@@ -234,7 +202,6 @@ describe("ETHVirtualAppAgreement", () => {
         appIdentityHash,
         0,
         bigNumberify(10),
-        0,
         computeKey(wallet.address, Zero, HashZero)
       )
     ).to.be.revertedWith("Delegate call failed.");
